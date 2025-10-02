@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="DroneCoveragePlanner - 无人机区域覆盖路径规划 这是一个用于无人机区域覆盖路径规划的Python项目。该项目实现了基于Boustrophedon分解的区域覆盖路径规划算法，可以生成高效的无人机覆盖路径。\nThis is a Python project for drone area coverage path planning. It implements the Boustrophedon decomposition algorithm to generate efficient coverage paths for drones.\n功能特点 / Features 支持多边形区域（包括带孔的多边形）的路径规划 / Supports path planning for polygonal areas (including polygons with holes) 实现了Boustrophedon分解算法 / Implements Boustrophedon decomposition algorithm 支持自定义路径间距 / Supports customizable path spacing 支持自定义路径角度 / Supports customizable path angle 提供可视化功能 / Provides visualization capabilities 系统要求 / System Requirements Python 3.8 或更高版本 / Python 3.8 or higher pip 包管理器 / pip package manager 依赖项 / Dependencies numpy &gt;= 1.21.0 shapely &gt;= 2.0.0 matplotlib &gt;= 3.5.0 安装 / Installation 克隆项目到本地 / Clone the project: 1 2 git clone [项目地址] cd Drone-Route-Planning 安装依赖 / Install dependencies: 1 pip install numpy&gt;=1.21.0 shapely&gt;=2.0.0 matplotlib&gt;=3.5.0 使用方法 / Usage 定义多边形区域 / Define polygon area: 1 2 ext = [(0, 0), (4, 4), (0, 8), (-4, 4), (-9, 3)] # 外边界 / outer boundary holes = [[(0, 0), (0, 0), (0, 0), (0, 0)]] # 内部孔洞（可选）/ inner holes (optional) 创建AreaPolygon对象 / Create AreaPolygon object: 1 polygon = AreaPolygon(ext, initial_pos=(-5, 10), interior=holes, ft=0.5, angle=30) 生成覆盖路径 / Generate coverage path: 1 path = polygon.get_area_coverage(origin=(0.0, 0.0)) 可视化结果 / Visualize results: 1 2 3 4 5 6 7 8 9 10 import matplotlib.pyplot as plt fig = plt.figure(1, dpi=90) ax = fig.add_subplot(121) plt.plot(*polygon.rP.exterior.xy) plot_coords(ax, path) plot_bounds(ax, path) plot_line(ax, path) plt.plot(*polygon.P.exterior.xy) plt.gca().set_aspect(&#39;equal&#39;, adjustable=&#39;box&#39;) plt.show() 参数说明 / Parameters coordinates: 多边形外边界坐标列表 / List of outer boundary coordinates initial_pos: 初始位置坐标 / Initial position coordinates interior: 内部孔洞坐标列表（可选）/ List of inner hole coordinates (optional) ft: 路径间距 / Path spacing angle: 路径角度（可选，默认基于最长边计算）/ Path angle (optional, defaults to calculation based on longest edge) 示例 / Examples 项目包含一个示例代码，展示了如何创建一个带孔的多边形并生成覆盖路径。运行area_coverage.py文件即可查看示例。\n">
+<title></title>
+
+<link rel='canonical' href='https://example.com/p/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="">
+<meta property='og:description' content="DroneCoveragePlanner - 无人机区域覆盖路径规划 这是一个用于无人机区域覆盖路径规划的Python项目。该项目实现了基于Boustrophedon分解的区域覆盖路径规划算法，可以生成高效的无人机覆盖路径。\nThis is a Python project for drone area coverage path planning. It implements the Boustrophedon decomposition algorithm to generate efficient coverage paths for drones.\n功能特点 / Features 支持多边形区域（包括带孔的多边形）的路径规划 / Supports path planning for polygonal areas (including polygons with holes) 实现了Boustrophedon分解算法 / Implements Boustrophedon decomposition algorithm 支持自定义路径间距 / Supports customizable path spacing 支持自定义路径角度 / Supports customizable path angle 提供可视化功能 / Provides visualization capabilities 系统要求 / System Requirements Python 3.8 或更高版本 / Python 3.8 or higher pip 包管理器 / pip package manager 依赖项 / Dependencies numpy &gt;= 1.21.0 shapely &gt;= 2.0.0 matplotlib &gt;= 3.5.0 安装 / Installation 克隆项目到本地 / Clone the project: 1 2 git clone [项目地址] cd Drone-Route-Planning 安装依赖 / Install dependencies: 1 pip install numpy&gt;=1.21.0 shapely&gt;=2.0.0 matplotlib&gt;=3.5.0 使用方法 / Usage 定义多边形区域 / Define polygon area: 1 2 ext = [(0, 0), (4, 4), (0, 8), (-4, 4), (-9, 3)] # 外边界 / outer boundary holes = [[(0, 0), (0, 0), (0, 0), (0, 0)]] # 内部孔洞（可选）/ inner holes (optional) 创建AreaPolygon对象 / Create AreaPolygon object: 1 polygon = AreaPolygon(ext, initial_pos=(-5, 10), interior=holes, ft=0.5, angle=30) 生成覆盖路径 / Generate coverage path: 1 path = polygon.get_area_coverage(origin=(0.0, 0.0)) 可视化结果 / Visualize results: 1 2 3 4 5 6 7 8 9 10 import matplotlib.pyplot as plt fig = plt.figure(1, dpi=90) ax = fig.add_subplot(121) plt.plot(*polygon.rP.exterior.xy) plot_coords(ax, path) plot_bounds(ax, path) plot_line(ax, path) plt.plot(*polygon.P.exterior.xy) plt.gca().set_aspect(&#39;equal&#39;, adjustable=&#39;box&#39;) plt.show() 参数说明 / Parameters coordinates: 多边形外边界坐标列表 / List of outer boundary coordinates initial_pos: 初始位置坐标 / Initial position coordinates interior: 内部孔洞坐标列表（可选）/ List of inner hole coordinates (optional) ft: 路径间距 / Path spacing angle: 路径角度（可选，默认基于最长边计算）/ Path angle (optional, defaults to calculation based on longest edge) 示例 / Examples 项目包含一个示例代码，展示了如何创建一个带孔的多边形并生成覆盖路径。运行area_coverage.py文件即可查看示例。\n">
+<meta property='og:url' content='https://example.com/p/'>
+<meta property='og:site_name' content='Example Site'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' />
+<meta name="twitter:title" content="">
+<meta name="twitter:description" content="DroneCoveragePlanner - 无人机区域覆盖路径规划 这是一个用于无人机区域覆盖路径规划的Python项目。该项目实现了基于Boustrophedon分解的区域覆盖路径规划算法，可以生成高效的无人机覆盖路径。\nThis is a Python project for drone area coverage path planning. It implements the Boustrophedon decomposition algorithm to generate efficient coverage paths for drones.\n功能特点 / Features 支持多边形区域（包括带孔的多边形）的路径规划 / Supports path planning for polygonal areas (including polygons with holes) 实现了Boustrophedon分解算法 / Implements Boustrophedon decomposition algorithm 支持自定义路径间距 / Supports customizable path spacing 支持自定义路径角度 / Supports customizable path angle 提供可视化功能 / Provides visualization capabilities 系统要求 / System Requirements Python 3.8 或更高版本 / Python 3.8 or higher pip 包管理器 / pip package manager 依赖项 / Dependencies numpy &gt;= 1.21.0 shapely &gt;= 2.0.0 matplotlib &gt;= 3.5.0 安装 / Installation 克隆项目到本地 / Clone the project: 1 2 git clone [项目地址] cd Drone-Route-Planning 安装依赖 / Install dependencies: 1 pip install numpy&gt;=1.21.0 shapely&gt;=2.0.0 matplotlib&gt;=3.5.0 使用方法 / Usage 定义多边形区域 / Define polygon area: 1 2 ext = [(0, 0), (4, 4), (0, 8), (-4, 4), (-9, 3)] # 外边界 / outer boundary holes = [[(0, 0), (0, 0), (0, 0), (0, 0)]] # 内部孔洞（可选）/ inner holes (optional) 创建AreaPolygon对象 / Create AreaPolygon object: 1 polygon = AreaPolygon(ext, initial_pos=(-5, 10), interior=holes, ft=0.5, angle=30) 生成覆盖路径 / Generate coverage path: 1 path = polygon.get_area_coverage(origin=(0.0, 0.0)) 可视化结果 / Visualize results: 1 2 3 4 5 6 7 8 9 10 import matplotlib.pyplot as plt fig = plt.figure(1, dpi=90) ax = fig.add_subplot(121) plt.plot(*polygon.rP.exterior.xy) plot_coords(ax, path) plot_bounds(ax, path) plot_line(ax, path) plt.plot(*polygon.P.exterior.xy) plt.gca().set_aspect(&#39;equal&#39;, adjustable=&#39;box&#39;) plt.show() 参数说明 / Parameters coordinates: 多边形外边界坐标列表 / List of outer boundary coordinates initial_pos: 初始位置坐标 / Initial position coordinates interior: 内部孔洞坐标列表（可选）/ List of inner hole coordinates (optional) ft: 路径间距 / Path spacing angle: 路径角度（可选，默认基于最长边计算）/ Path angle (optional, defaults to calculation based on longest edge) 示例 / Examples 项目包含一个示例代码，展示了如何创建一个带孔的多边形并生成覆盖路径。运行area_coverage.py文件即可查看示例。\n">
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="47b8d834-af08-4c32-85b6-555b66754488"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_f509edb42ecc0ebd.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Example Site</a></h1>
+            <h2 class="site-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#功能特点--features">功能特点 / Features</a></li>
+    <li><a href="#系统要求--system-requirements">系统要求 / System Requirements</a></li>
+    <li><a href="#依赖项--dependencies">依赖项 / Dependencies</a></li>
+    <li><a href="#安装--installation">安装 / Installation</a></li>
+    <li><a href="#使用方法--usage">使用方法 / Usage</a></li>
+    <li><a href="#参数说明--parameters">参数说明 / Parameters</a></li>
+    <li><a href="#示例--examples">示例 / Examples</a></li>
+    <li><a href="#许可证--license">许可证 / License</a></li>
+    <li><a href="#贡献--contributing">贡献 / Contributing</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/"></a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="dronecoverageplanner---无人机区域覆盖路径规划">DroneCoveragePlanner - 无人机区域覆盖路径规划
+</h1><p>这是一个用于无人机区域覆盖路径规划的Python项目。该项目实现了基于Boustrophedon分解的区域覆盖路径规划算法，可以生成高效的无人机覆盖路径。</p>
+<p>This is a Python project for drone area coverage path planning. It implements the Boustrophedon decomposition algorithm to generate efficient coverage paths for drones.</p>
+<h2 id="功能特点--features">功能特点 / Features
+</h2><ul>
+<li>支持多边形区域（包括带孔的多边形）的路径规划 / Supports path planning for polygonal areas (including polygons with holes)</li>
+<li>实现了Boustrophedon分解算法 / Implements Boustrophedon decomposition algorithm</li>
+<li>支持自定义路径间距 / Supports customizable path spacing</li>
+<li>支持自定义路径角度 / Supports customizable path angle</li>
+<li>提供可视化功能 / Provides visualization capabilities</li>
+</ul>
+<h2 id="系统要求--system-requirements">系统要求 / System Requirements
+</h2><ul>
+<li>Python 3.8 或更高版本 / Python 3.8 or higher</li>
+<li>pip 包管理器 / pip package manager</li>
+</ul>
+<h2 id="依赖项--dependencies">依赖项 / Dependencies
+</h2><ul>
+<li>numpy &gt;= 1.21.0</li>
+<li>shapely &gt;= 2.0.0</li>
+<li>matplotlib &gt;= 3.5.0</li>
+</ul>
+<h2 id="安装--installation">安装 / Installation
+</h2><ol>
+<li>克隆项目到本地 / Clone the project:</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone <span class="o">[</span>项目地址<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> Drone-Route-Planning
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>安装依赖 / Install dependencies:</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pip install numpy&gt;<span class="o">=</span>1.21.0 shapely&gt;<span class="o">=</span>2.0.0 matplotlib&gt;<span class="o">=</span>3.5.0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="使用方法--usage">使用方法 / Usage
+</h2><ol>
+<li>定义多边形区域 / Define polygon area:</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">ext</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>  <span class="c1"># 外边界 / outer boundary</span>
+</span></span><span class="line"><span class="cl"><span class="n">holes</span> <span class="o">=</span> <span class="p">[[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]]</span>  <span class="c1"># 内部孔洞（可选）/ inner holes (optional)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>创建AreaPolygon对象 / Create AreaPolygon object:</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">polygon</span> <span class="o">=</span> <span class="n">AreaPolygon</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="n">initial_pos</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">interior</span><span class="o">=</span><span class="n">holes</span><span class="p">,</span> <span class="n">ft</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>生成覆盖路径 / Generate coverage path:</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">path</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">get_area_coverage</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li>可视化结果 / Visualize results:</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">polygon</span><span class="o">.</span><span class="n">rP</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">xy</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plot_coords</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plot_bounds</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plot_line</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">polygon</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">xy</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="参数说明--parameters">参数说明 / Parameters
+</h2><ul>
+<li><code>coordinates</code>: 多边形外边界坐标列表 / List of outer boundary coordinates</li>
+<li><code>initial_pos</code>: 初始位置坐标 / Initial position coordinates</li>
+<li><code>interior</code>: 内部孔洞坐标列表（可选）/ List of inner hole coordinates (optional)</li>
+<li><code>ft</code>: 路径间距 / Path spacing</li>
+<li><code>angle</code>: 路径角度（可选，默认基于最长边计算）/ Path angle (optional, defaults to calculation based on longest edge)</li>
+</ul>
+<h2 id="示例--examples">示例 / Examples
+</h2><p>项目包含一个示例代码，展示了如何创建一个带孔的多边形并生成覆盖路径。运行<code>area_coverage.py</code>文件即可查看示例。</p>
+<p>The project includes an example code that demonstrates how to create a polygon with holes and generate a coverage path. Run the <code>area_coverage.py</code> file to see the example.</p>
+<h2 id="许可证--license">许可证 / License
+</h2><p>[待定 / To be determined]</p>
+<h2 id="贡献--contributing">贡献 / Contributing
+</h2><p>欢迎提交问题和改进建议！ / Issues and pull requests are welcome!</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 Example Person
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.31.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
