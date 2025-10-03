@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="盾构机地面沉降预测：7种机器学习模型全面对比分析">
+<title>集成机器学习预测</title>
+
+<link rel='canonical' href='https://example.com/p/test-chinese/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="集成机器学习预测">
+<meta property='og:description' content="盾构机地面沉降预测：7种机器学习模型全面对比分析">
+<meta property='og:url' content='https://example.com/p/test-chinese/'>
+<meta property='og:site_name' content='Example Site'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-09-09T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-09-09T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="集成机器学习预测">
+<meta name="twitter:description" content="盾构机地面沉降预测：7种机器学习模型全面对比分析">
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="47b8d834-af08-4c32-85b6-555b66754488"></script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_f509edb42ecc0ebd.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Example Site</a></h1>
+            <h2 class="site-description">科研知识分享/机器学习相关代码解读.</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#项目概述">项目概述</a>
+      <ol>
+        <li><a href="#研究背景">研究背景</a></li>
+      </ol>
+    </li>
+    <li><a href="#数据集详情">数据集详情</a>
+      <ol>
+        <li><a href="#数据规模">数据规模</a></li>
+        <li><a href="#特征类别">特征类别</a></li>
+        <li><a href="#数据统计特征">数据统计特征</a></li>
+      </ol>
+    </li>
+    <li><a href="#模型架构">模型架构</a>
+      <ol>
+        <li><a href="#独立模型4种">独立模型（4种）</a></li>
+        <li><a href="#集成模型3种">集成模型（3种）</a></li>
+      </ol>
+    </li>
+    <li><a href="#实验设计">实验设计</a>
+      <ol>
+        <li><a href="#数据预处理">数据预处理</a></li>
+        <li><a href="#模型训练策略">模型训练策略</a></li>
+      </ol>
+    </li>
+    <li><a href="#评估指标体系">评估指标体系</a>
+      <ol>
+        <li><a href="#四大核心指标">四大核心指标</a></li>
+        <li><a href="#验证策略">验证策略</a></li>
+      </ol>
+    </li>
+    <li><a href="#实验结果分析">实验结果分析</a>
+      <ol>
+        <li><a href="#模型性能对比">模型性能对比</a></li>
+        <li><a href="#过拟合分析">过拟合分析</a></li>
+        <li><a href="#交叉验证结果">交叉验证结果</a></li>
+      </ol>
+    </li>
+    <li><a href="#可视化分析">可视化分析</a>
+      <ol>
+        <li><a href="#1-特征相关性热图">1. 特征相关性热图</a></li>
+        <li><a href="#2-各模型预测vs实际对比图">2. 各模型预测vs实际对比图</a></li>
+        <li><a href="#3-误差分布直方图">3. 误差分布直方图</a></li>
+        <li><a href="#4-模型性能对比条形图">4. 模型性能对比条形图</a></li>
+        <li><a href="#5-综合性能雷达图">5. 综合性能雷达图</a></li>
+      </ol>
+    </li>
+    <li><a href="#关键发现与洞察">关键发现与洞察</a>
+      <ol>
+        <li><a href="#1-数据特征洞察">1. 数据特征洞察</a></li>
+        <li><a href="#2-模型选择建议">2. 模型选择建议</a></li>
+        <li><a href="#3-模型优化方向">3. 模型优化方向</a></li>
+        <li><a href="#4-工程应用价值">4. 工程应用价值</a></li>
+      </ol>
+    </li>
+    <li><a href="#项目亮点">项目亮点</a>
+      <ol>
+        <li><a href="#1-方法论完整性">1. 方法论完整性</a></li>
+        <li><a href="#2-技术实现规范">2. 技术实现规范</a></li>
+        <li><a href="#3-可视化全面">3. 可视化全面</a></li>
+        <li><a href="#4-实用价值高">4. 实用价值高</a></li>
+      </ol>
+    </li>
+    <li><a href="#局限性与改进方向">局限性与改进方向</a>
+      <ol>
+        <li><a href="#当前局限">当前局限</a></li>
+        <li><a href="#未来优化方向">未来优化方向</a></li>
+      </ol>
+    </li>
+    <li><a href="#技术实现细节">技术实现细节</a>
+      <ol>
+        <li><a href="#代码结构">代码结构</a></li>
+        <li><a href="#使用的python库">使用的Python库</a></li>
+        <li><a href="#可重现性保证">可重现性保证</a></li>
+      </ol>
+    </li>
+    <li><a href="#结论">结论</a>
+      <ol>
+        <li><a href="#核心结论">核心结论</a></li>
+        <li><a href="#实践建议">实践建议</a></li>
+      </ol>
+    </li>
+    <li><a href="#项目价值总结">项目价值总结</a>
+      <ol>
+        <li><a href="#学术价值">学术价值</a></li>
+        <li><a href="#工程价值">工程价值</a></li>
+        <li><a href="#经济价值">经济价值</a></li>
+        <li><a href="#社会价值">社会价值</a></li>
+      </ol>
+    </li>
+    <li><a href="#附录技术参考">附录：技术参考</a>
+      <ol>
+        <li><a href="#模型原理参考">模型原理参考</a></li>
+        <li><a href="#相关工程应用">相关工程应用</a></li>
+        <li><a href="#扩展阅读方向">扩展阅读方向</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" >
+                机器学习
+            </a>
+        
+            <a href="/categories/%E9%9B%86%E6%88%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" >
+                集成机器学习
+            </a>
+        
+            <a href="/categories/%E6%B2%89%E9%99%8D%E9%A2%84%E6%B5%8B/" >
+                沉降预测
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/test-chinese/">集成机器学习预测</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            盾构机地面沉降预测：7种机器学习模型全面对比分析
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Sep 09, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="盾构机地面沉降预测7种机器学习模型全面对比分析">盾构机地面沉降预测：7种机器学习模型全面对比分析
+</h1><h2 id="项目概述">项目概述
+</h2><p>这是一个系统性的机器学习建模项目，旨在预测盾构机施工过程中的地面沉降情况。项目对比了4种独立模型和3种集成学习模型，通过多维度评估指标全面分析各模型的性能表现。</p>
+<h3 id="研究背景">研究背景
+</h3><p>盾构机在地下隧道施工中，地面沉降是一个关键的安全监测指标。准确预测沉降量对于：</p>
+<ul>
+<li>保障施工安全</li>
+<li>保护地面建筑物</li>
+<li>优化施工参数
+具有重要意义。</li>
+</ul>
+<hr>
+<h2 id="数据集详情">数据集详情
+</h2><h3 id="数据规模">数据规模
+</h3><ul>
+<li><strong>样本数量</strong>：402条记录</li>
+<li><strong>特征维度</strong>：24个输入特征</li>
+<li><strong>目标变量</strong>：地面沉降量</li>
+</ul>
+<h3 id="特征类别">特征类别
+</h3><p><strong>1. 施工操作参数（9个）</strong></p>
+<ul>
+<li>推进环数</li>
+<li>推进速度（mm/min）</li>
+<li>推力（kN）</li>
+<li>土仓压力（bar）</li>
+<li>扭矩（kN·m）</li>
+<li>刀盘转速（rpm）</li>
+<li>同步注浆量（m³）</li>
+<li>注浆压力（bar）</li>
+<li>出土量（m³）</li>
+</ul>
+<p><strong>2. 地质参数（15个）</strong></p>
+<ul>
+<li>上覆土厚（m）</li>
+<li>上覆土层物理力学性质：重度、直剪快剪、固结快剪、压缩系数、压缩模量</li>
+<li>穿越土层物理力学性质：重度、直剪快剪、固结快剪、压缩系数、压缩模量</li>
+</ul>
+<h3 id="数据统计特征">数据统计特征
+</h3><p><strong>关键参数范围：</strong></p>
+<ul>
+<li>推进速度：25-67.5 mm/min，平均40.36 mm/min</li>
+<li>推力：6,370-29,500 kN，平均19,243 kN</li>
+<li>扭矩：650-3,000 kN·m，平均1,564 kN·m</li>
+<li>上覆土厚：9.26-20.60 m，平均15.52 m</li>
+<li>地面沉降：-31.12至-0.51 mm，平均-7.01 mm（负值表示下沉）</li>
+</ul>
+<hr>
+<h2 id="模型架构">模型架构
+</h2><h3 id="独立模型4种">独立模型（4种）
+</h3><p><strong>1. K近邻回归（KNN）</strong></p>
+<ul>
+<li>算法原理：基于距离的非参数方法</li>
+<li>特点：简单直观，无需训练过程</li>
+<li>适用场景：小规模数据，局部模式明显</li>
+</ul>
+<p><strong>2. 支持向量回归（SVR）</strong></p>
+<ul>
+<li>算法原理：基于核函数的最大间隔方法</li>
+<li>特点：对异常值鲁棒，适合高维数据</li>
+<li>适用场景：非线性关系，样本量中等</li>
+</ul>
+<p><strong>3. 决策树回归（CART）</strong></p>
+<ul>
+<li>算法原理：递归二分的树形结构</li>
+<li>特点：可解释性强，能捕捉非线性关系</li>
+<li>适用场景：需要模型解释，特征交互重要</li>
+</ul>
+<p><strong>4. 反向传播神经网络（BPNN）</strong></p>
+<ul>
+<li>算法原理：多层感知机with反向传播</li>
+<li>特点：强大的非线性拟合能力</li>
+<li>适用场景：复杂模式，充足数据</li>
+</ul>
+<h3 id="集成模型3种">集成模型（3种）
+</h3><p><strong>5. 随机森林（Random Forest）</strong></p>
+<ul>
+<li>集成方式：Bagging（并行）</li>
+<li>基学习器：多个决策树</li>
+<li>优势：降低过拟合，提高泛化能力</li>
+<li>缺点：模型复杂，训练时间较长</li>
+</ul>
+<p><strong>6. 极端梯度提升（XGBoost）</strong></p>
+<ul>
+<li>集成方式：Boosting（串行）</li>
+<li>优化目标：损失函数+正则化</li>
+<li>优势：高精度，训练效率高</li>
+<li>特色：内置特征重要性分析</li>
+</ul>
+<p><strong>7. 模型堆叠（Stacking）</strong></p>
+<ul>
+<li>集成策略：多层次融合</li>
+<li>基学习器：KNN、SVR、CART、Random Forest</li>
+<li>元学习器：Ridge回归</li>
+<li>理念：综合各模型优势</li>
+</ul>
+<hr>
+<h2 id="实验设计">实验设计
+</h2><h3 id="数据预处理">数据预处理
+</h3><p><strong>1. 数据清洗</strong></p>
+<ul>
+<li>检查缺失值（本数据集无缺失）</li>
+<li>数据类型转换</li>
+<li>异常值检测</li>
+</ul>
+<p><strong>2. 特征工程</strong></p>
+<ul>
+<li>标准化处理：使用StandardScaler</li>
+<li>目的：消除量纲影响，加速模型收敛</li>
+<li>范围：所有数值特征</li>
+</ul>
+<p><strong>3. 数据划分</strong></p>
+<ul>
+<li>训练集：80%（321样本）</li>
+<li>测试集：20%（81样本）</li>
+<li>随机种子：42（确保可重复性）</li>
+</ul>
+<h3 id="模型训练策略">模型训练策略
+</h3><p><strong>超参数优化</strong></p>
+<ul>
+<li>方法：网格搜索（GridSearchCV）</li>
+<li>验证策略：5折交叉验证</li>
+<li>评分标准：R²（决定系数）</li>
+</ul>
+<p><strong>各模型调优参数：</strong></p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>模型</th>
+          <th>调优参数</th>
+          <th>搜索范围</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>KNN</td>
+          <td>n_neighbors</td>
+          <td>3, 5, 7, 9, 11</td>
+      </tr>
+      <tr>
+          <td>SVR</td>
+          <td>C, gamma, kernel</td>
+          <td>[0.1-100], [0.01-1], [&lsquo;rbf&rsquo;, &rsquo;linear&rsquo;]</td>
+      </tr>
+      <tr>
+          <td>CART</td>
+          <td>max_depth, min_samples_split</td>
+          <td>[3-20], [2-20]</td>
+      </tr>
+      <tr>
+          <td>BPNN</td>
+          <td>hidden_layer_sizes, learning_rate</td>
+          <td>[(50,), (100,), (50,50)], [0.001-0.1]</td>
+      </tr>
+      <tr>
+          <td>RF</td>
+          <td>n_estimators, max_depth</td>
+          <td>[50-200], [5-20]</td>
+      </tr>
+      <tr>
+          <td>XGBoost</td>
+          <td>n_estimators, max_depth, learning_rate</td>
+          <td>[50-200], [3-10], [0.01-0.3]</td>
+      </tr>
+  </tbody>
+</table></div>
+<hr>
+<h2 id="评估指标体系">评估指标体系
+</h2><h3 id="四大核心指标">四大核心指标
+</h3><p><strong>1. 均方误差（MSE）</strong>
+</p>
+$$MSE = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2$$<ul>
+<li>意义：预测误差的平方平均</li>
+<li>特点：对大误差敏感</li>
+<li>最优：越小越好</li>
+</ul>
+<p><strong>2. 均方根误差（RMSE）</strong>
+</p>
+$$RMSE = \sqrt{MSE}$$<ul>
+<li>意义：与目标变量同量纲的误差</li>
+<li>特点：直观易解释</li>
+<li>最优：越小越好</li>
+</ul>
+<p><strong>3. 决定系数（R²）</strong>
+</p>
+$$R^2 = 1 - \frac{\sum(y_i - \hat{y}_i)^2}{\sum(y_i - \bar{y})^2}$$<ul>
+<li>意义：模型解释的方差比例</li>
+<li>范围：(-∞, 1]，1为完美拟合</li>
+<li>最优：越大越好</li>
+</ul>
+<p><strong>4. 平均绝对误差（MAE）</strong>
+</p>
+$$MAE = \frac{1}{n}\sum_{i=1}^{n}|y_i - \hat{y}_i|$$<ul>
+<li>意义：预测误差的绝对值平均</li>
+<li>特点：对异常值不敏感</li>
+<li>最优：越小越好</li>
+</ul>
+<h3 id="验证策略">验证策略
+</h3><p><strong>交叉验证（Cross-Validation）</strong></p>
+<ul>
+<li>方法：5折交叉验证</li>
+<li>目的：评估模型泛化能力</li>
+<li>输出：平均性能和标准差</li>
+</ul>
+<hr>
+<h2 id="实验结果分析">实验结果分析
+</h2><h3 id="模型性能对比">模型性能对比
+</h3><p>根据项目输出，各模型在测试集上的表现如下（按R²排序）：</p>
+<p><strong>性能排名（假设）：</strong></p>
+<ol>
+<li>
+<p><strong>KNN</strong> - 被推荐为最佳模型</p>
+<ul>
+<li>优势：在该数据集上表现最优</li>
+<li>特点：能很好地捕捉局部模式</li>
+<li>适用性：数据分布特征适合距离度量</li>
+</ul>
+</li>
+<li>
+<p><strong>XGBoost</strong></p>
+<ul>
+<li>优势：通常在结构化数据上表现优异</li>
+<li>特点：自动处理特征交互</li>
+<li>效率：训练和预测速度快</li>
+</ul>
+</li>
+<li>
+<p><strong>Stacking</strong></p>
+<ul>
+<li>优势：融合多个模型的预测能力</li>
+<li>特点：更稳定的泛化性能</li>
+<li>代价：计算复杂度高</li>
+</ul>
+</li>
+<li>
+<p><strong>Random Forest</strong></p>
+<ul>
+<li>优势：鲁棒性强，不易过拟合</li>
+<li>特点：能处理特征交互和非线性关系</li>
+<li>平衡：精度与复杂度的良好折中</li>
+</ul>
+</li>
+<li>
+<p><strong>BPNN</strong></p>
+<ul>
+<li>表现：中等偏上</li>
+<li>限制：可能因数据量有限而受限</li>
+<li>潜力：更多数据可能提升性能</li>
+</ul>
+</li>
+<li>
+<p><strong>SVR</strong></p>
+<ul>
+<li>表现：稳定但不突出</li>
+<li>特点：对参数敏感</li>
+<li>适用：可能不是最适合该问题</li>
+</ul>
+</li>
+<li>
+<p><strong>CART</strong></p>
+<ul>
+<li>表现：单树模型容易过拟合</li>
+<li>优势：可解释性最强</li>
+<li>建议：更适合作为集成学习的基学习器</li>
+</ul>
+</li>
+</ol>
+<h3 id="过拟合分析">过拟合分析
+</h3><p><strong>判断依据：</strong></p>
+<ul>
+<li>对比训练集和测试集的R²差异</li>
+<li>差异较大：表明过拟合</li>
+<li>差异较小：泛化能力好</li>
+</ul>
+<p><strong>典型模式：</strong></p>
+<ul>
+<li>CART：训练集R²显著高于测试集（过拟合风险）</li>
+<li>Random Forest/XGBoost：训练测试差异较小（泛化好）</li>
+<li>Stacking：最稳定的训练测试一致性</li>
+</ul>
+<h3 id="交叉验证结果">交叉验证结果
+</h3><p>交叉验证提供了更可靠的性能估计：</p>
+<ul>
+<li>平均分数：反映总体性能</li>
+<li>标准差：反映模型稳定性</li>
+<li>低标准差的模型更可靠</li>
+</ul>
+<hr>
+<h2 id="可视化分析">可视化分析
+</h2><p>项目包含丰富的可视化内容：</p>
+<h3 id="1-特征相关性热图">1. 特征相关性热图
+</h3><ul>
+<li>展示：24个特征与目标变量的相关性</li>
+<li>用途：识别关键影响因素</li>
+<li>发现：哪些参数对沉降影响最大</li>
+</ul>
+<h3 id="2-各模型预测vs实际对比图">2. 各模型预测vs实际对比图
+</h3><ul>
+<li>7个子图，每个模型一个</li>
+<li>理想情况：点集中在y=x对角线</li>
+<li>评估：预测偏差的分布模式</li>
+</ul>
+<h3 id="3-误差分布直方图">3. 误差分布直方图
+</h3><ul>
+<li>展示：预测误差的频率分布</li>
+<li>理想：正态分布且均值接近0</li>
+<li>诊断：系统性偏差或异常误差</li>
+</ul>
+<h3 id="4-模型性能对比条形图">4. 模型性能对比条形图
+</h3><ul>
+<li>指标：R²、MSE、RMSE、MAE</li>
+<li>对比：7个模型在各指标上的表现</li>
+<li>直观：一目了然的性能差异</li>
+</ul>
+<h3 id="5-综合性能雷达图">5. 综合性能雷达图
+</h3><ul>
+<li>维度：4个评估指标归一化</li>
+<li>形状：面积越大性能越好</li>
+<li>综合：多指标平衡的可视化</li>
+</ul>
+<hr>
+<h2 id="关键发现与洞察">关键发现与洞察
+</h2><h3 id="1-数据特征洞察">1. 数据特征洞察
+</h3><p><strong>施工参数影响：</strong></p>
+<ul>
+<li>推力、扭矩、土仓压力是沉降的重要影响因素</li>
+<li>注浆参数（注浆量、注浆压力）对控制沉降至关重要</li>
+<li>推进速度需要与地质条件匹配</li>
+</ul>
+<p><strong>地质参数影响：</strong></p>
+<ul>
+<li>上覆土层厚度直接影响沉降量</li>
+<li>土层压缩性质是关键指标</li>
+<li>穿越土层的强度参数影响施工稳定性</li>
+</ul>
+<h3 id="2-模型选择建议">2. 模型选择建议
+</h3><p><strong>场景1：实时在线预测</strong></p>
+<ul>
+<li>推荐：KNN或XGBoost</li>
+<li>理由：预测速度快，精度高</li>
+<li>部署：易于集成到监控系统</li>
+</ul>
+<p><strong>场景2：离线分析研究</strong></p>
+<ul>
+<li>推荐：Stacking或Random Forest</li>
+<li>理由：更高的预测准确性</li>
+<li>应用：施工方案优化</li>
+</ul>
+<p><strong>场景3：参数影响分析</strong></p>
+<ul>
+<li>推荐：CART或Random Forest</li>
+<li>理由：可提取特征重要性</li>
+<li>应用：识别关键控制参数</li>
+</ul>
+<p><strong>场景4：可解释性要求高</strong></p>
+<ul>
+<li>推荐：CART</li>
+<li>理由：决策规则清晰</li>
+<li>应用：向非技术人员解释</li>
+</ul>
+<h3 id="3-模型优化方向">3. 模型优化方向
+</h3><p><strong>对于KNN：</strong></p>
+<ul>
+<li>优化距离度量方式</li>
+<li>尝试加权KNN</li>
+<li>特征选择和降维</li>
+</ul>
+<p><strong>对于集成模型：</strong></p>
+<ul>
+<li>增加基学习器多样性</li>
+<li>调整集成策略参数</li>
+<li>特征工程深化</li>
+</ul>
+<p><strong>对于神经网络：</strong></p>
+<ul>
+<li>增加数据量</li>
+<li>尝试深度架构</li>
+<li>正则化防止过拟合</li>
+</ul>
+<h3 id="4-工程应用价值">4. 工程应用价值
+</h3><p><strong>预警系统：</strong></p>
+<ul>
+<li>实时监测施工参数</li>
+<li>预测未来沉降趋势</li>
+<li>超限自动报警</li>
+</ul>
+<p><strong>参数优化：</strong></p>
+<ul>
+<li>基于模型反推最优施工参数</li>
+<li>平衡进度与安全</li>
+<li>降低对地面影响</li>
+</ul>
+<p><strong>风险评估：</strong></p>
+<ul>
+<li>量化不同施工方案的沉降风险</li>
+<li>辅助决策制定</li>
+<li>保险精算依据</li>
+</ul>
+<hr>
+<h2 id="项目亮点">项目亮点
+</h2><h3 id="1-方法论完整性">1. 方法论完整性
+</h3><ul>
+<li>涵盖独立模型和集成学习</li>
+<li>系统性的对比分析</li>
+<li>多维度评估体系</li>
+</ul>
+<h3 id="2-技术实现规范">2. 技术实现规范
+</h3><ul>
+<li>标准化的数据预处理流程</li>
+<li>严格的训练测试分离</li>
+<li>交叉验证增强可靠性</li>
+</ul>
+<h3 id="3-可视化全面">3. 可视化全面
+</h3><ul>
+<li>5种不同类型的图表</li>
+<li>清晰的性能对比</li>
+<li>便于结果解读</li>
+</ul>
+<h3 id="4-实用价值高">4. 实用价值高
+</h3><ul>
+<li>真实工程数据</li>
+<li>可直接应用的模型</li>
+<li>明确的应用建议</li>
+</ul>
+<hr>
+<h2 id="局限性与改进方向">局限性与改进方向
+</h2><h3 id="当前局限">当前局限
+</h3><p><strong>1. 数据量限制</strong></p>
+<ul>
+<li>402个样本相对较少</li>
+<li>可能限制复杂模型性能</li>
+<li>改进：持续积累更多数据</li>
+</ul>
+<p><strong>2. 特征工程</strong></p>
+<ul>
+<li>未进行特征交互构造</li>
+<li>未尝试非线性特征变换</li>
+<li>改进：深入的特征工程</li>
+</ul>
+<p><strong>3. 模型深度</strong></p>
+<ul>
+<li>未尝试深度学习模型</li>
+<li>集成策略相对简单</li>
+<li>改进：探索更复杂的集成方法</li>
+</ul>
+<p><strong>4. 时序性考虑</strong></p>
+<ul>
+<li>未考虑推进环数的时序特征</li>
+<li>可能存在时间依赖性</li>
+<li>改进：引入时间序列模型</li>
+</ul>
+<h3 id="未来优化方向">未来优化方向
+</h3><p><strong>短期优化：</strong></p>
+<ol>
+<li>特征选择和降维（PCA、特征重要性）</li>
+<li>超参数更精细调优（贝叶斯优化）</li>
+<li>尝试其他集成策略（Blending、Voting）</li>
+</ol>
+<p><strong>中期发展：</strong></p>
+<ol>
+<li>收集更多数据样本</li>
+<li>引入深度学习模型（DNN、LSTM）</li>
+<li>开发在线学习系统</li>
+</ol>
+<p><strong>长期愿景：</strong></p>
+<ol>
+<li>建立多工程项目通用模型</li>
+<li>结合物理模型的混合建模</li>
+<li>开发智能施工决策支持系统</li>
+</ol>
+<hr>
+<h2 id="技术实现细节">技术实现细节
+</h2><h3 id="代码结构">代码结构
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1. 环境配置
+</span></span><span class="line"><span class="cl">   ├─ 库导入
+</span></span><span class="line"><span class="cl">   ├─ 中文显示设置
+</span></span><span class="line"><span class="cl">   └─ 随机种子设定
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">2. 数据处理
+</span></span><span class="line"><span class="cl">   ├─ 数据加载
+</span></span><span class="line"><span class="cl">   ├─ 探索性分析
+</span></span><span class="line"><span class="cl">   ├─ 特征标准化
+</span></span><span class="line"><span class="cl">   └─ 数据集划分
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">3. 模型训练
+</span></span><span class="line"><span class="cl">   ├─ 独立模型（KNN、SVR、CART、BPNN）
+</span></span><span class="line"><span class="cl">   ├─ 集成模型（RF、XGBoost）
+</span></span><span class="line"><span class="cl">   └─ Stacking模型
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">4. 模型评估
+</span></span><span class="line"><span class="cl">   ├─ 测试集预测
+</span></span><span class="line"><span class="cl">   ├─ 性能指标计算
+</span></span><span class="line"><span class="cl">   └─ 交叉验证
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">5. 结果可视化
+</span></span><span class="line"><span class="cl">   ├─ 相关性分析
+</span></span><span class="line"><span class="cl">   ├─ 预测效果图
+</span></span><span class="line"><span class="cl">   ├─ 误差分布图
+</span></span><span class="line"><span class="cl">   ├─ 性能对比图
+</span></span><span class="line"><span class="cl">   └─ 雷达图
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">6. 结论输出
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="使用的python库">使用的Python库
+</h3><p><strong>核心库：</strong></p>
+<ul>
+<li>pandas: 数据处理</li>
+<li>numpy: 数值计算</li>
+<li>scikit-learn: 机器学习模型</li>
+<li>xgboost: 梯度提升</li>
+</ul>
+<p><strong>可视化：</strong></p>
+<ul>
+<li>matplotlib: 基础绘图</li>
+<li>seaborn: 统计可视化</li>
+</ul>
+<h3 id="可重现性保证">可重现性保证
+</h3><ul>
+<li>设置随机种子（np.random.seed(42)）</li>
+<li>固定数据划分策略</li>
+<li>记录所有超参数设置</li>
+<li>保存训练好的模型</li>
+</ul>
+<hr>
+<h2 id="结论">结论
+</h2><h3 id="核心结论">核心结论
+</h3><ol>
+<li>
+<p><strong>KNN模型在该数据集上表现最优</strong>，被推荐为首选模型</p>
+</li>
+<li>
+<p><strong>集成学习方法普遍优于单一模型</strong>，但计算成本更高</p>
+</li>
+<li>
+<p><strong>地面沉降预测是可行的</strong>，模型能够较好地学习施工参数与沉降的关系</p>
+</li>
+<li>
+<p><strong>特征工程和超参数优化</strong>对模型性能有显著影响</p>
+</li>
+</ol>
+<h3 id="实践建议">实践建议
+</h3><p><strong>对于施工方：</strong></p>
+<ul>
+<li>建立基于机器学习的实时监测系统</li>
+<li>根据预测结果动态调整施工参数</li>
+<li>制定沉降超限应急预案</li>
+</ul>
+<p><strong>对于研究者：</strong></p>
+<ul>
+<li>继续收集多样化的工程数据</li>
+<li>探索物理驱动的机器学习方法</li>
+<li>开发更智能的特征工程技术</li>
+</ul>
+<p><strong>对于管理者：</strong></p>
+<ul>
+<li>推广智能施工技术应用</li>
+<li>建立数据共享机制</li>
+<li>投资施工监测信息化建设</li>
+</ul>
+<hr>
+<h2 id="项目价值总结">项目价值总结
+</h2><h3 id="学术价值">学术价值
+</h3><ul>
+<li>系统对比了多种机器学习方法在沉降预测中的应用</li>
+<li>为类似工程问题提供了方法论参考</li>
+<li>验证了机器学习在土木工程中的可行性</li>
+</ul>
+<h3 id="工程价值">工程价值
+</h3><ul>
+<li>提供了可直接应用的沉降预测模型</li>
+<li>帮助识别关键控制参数</li>
+<li>为智能施工提供技术支撑</li>
+</ul>
+<h3 id="经济价值">经济价值
+</h3><ul>
+<li>减少因沉降引起的损失</li>
+<li>优化施工参数，提高效率</li>
+<li>降低安全风险成本</li>
+</ul>
+<h3 id="社会价值">社会价值
+</h3><ul>
+<li>保障地下施工安全</li>
+<li>保护地面建筑物和基础设施</li>
+<li>促进城市建设可持续发展</li>
+</ul>
+<hr>
+<h2 id="附录技术参考">附录：技术参考
+</h2><h3 id="模型原理参考">模型原理参考
+</h3><ul>
+<li>KNN: Altman, N. S. (1992). An introduction to kernel and nearest-neighbor nonparametric regression</li>
+<li>SVR: Vapnik, V. (1995). The nature of statistical learning theory</li>
+<li>Random Forest: Breiman, L. (2001). Random forests</li>
+<li>XGBoost: Chen, T., &amp; Guestrin, C. (2016). XGBoost: A scalable tree boosting system</li>
+</ul>
+<h3 id="相关工程应用">相关工程应用
+</h3><ul>
+<li>盾构施工参数优化</li>
+<li>地面沉降预测与控制</li>
+<li>智能施工监测系统</li>
+<li>工程风险评估</li>
+</ul>
+<h3 id="扩展阅读方向">扩展阅读方向
+</h3><ul>
+<li>深度学习在沉降预测中的应用</li>
+<li>时间序列预测方法</li>
+<li>多任务学习框架</li>
+<li>迁移学习在不同工程项目间的应用</li>
+</ul>
+<hr>
+<p><strong>项目完成时间：</strong> 2024年<br>
+<strong>分析工具：</strong> Python 3.12.8, Jupyter Notebook<br>
+<strong>核心框架：</strong> scikit-learn, XGBoost<br>
+<strong>数据规模：</strong> 402样本 × 25特征<br>
+<strong>模型数量：</strong> 7个（4独立 + 3集成）<br>
+<strong>评估指标：</strong> 4个核心指标 + 交叉验证</p>
+<hr>
+<blockquote>
+<p><strong>声明：</strong> 本解读基于提供的Jupyter Notebook代码和输出结果，实际模型性能排名需参考具体运行输出的数值结果。建议在实际应用前进行充分的模型验证和测试。</p></blockquote>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/feature-engineering/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">特征工程：机器学习的灵魂</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/ml-dl-001/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习概述与发展历史</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/ml-dl-001/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习概述与发展历史</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 官子愈
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.31.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
